@@ -15,7 +15,6 @@ import Skills from './components/Skills';
 import MarqueeTicker from './components/MarqueeTicker';
 import Projects from './components/Projects';
 import Contact from './components/Contact';
-import Footer from './components/Footer';
 
 export default function App() {
   const [activeSection, setActiveSection] = useState('home');
@@ -74,9 +73,6 @@ export default function App() {
             <Projects />
             <Contact />
           </main>
-
-          {/* Footer credentials */}
-          <Footer />
         </div>
       )}
     </>

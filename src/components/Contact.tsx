@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Mail, Phone, MapPin, CheckCircle, Github, Linkedin, Send, Loader2 } from 'lucide-react';
+import { Mail, Phone, Github, Linkedin, Instagram, ArrowUpRight, ArrowUp, Loader2, CheckCircle2 } from 'lucide-react';
 import { personalInfo } from '../data';
 
 export default function Contact() {
@@ -32,7 +32,7 @@ export default function Contact() {
 
     setIsSubmitting(true);
 
-    // Simulate sending time
+    // Simulate form submission
     setTimeout(() => {
       setIsSubmitting(false);
       setShowToast(true);
@@ -45,232 +45,350 @@ export default function Contact() {
     }, 1200);
   };
 
+  const handleBack = () => {
+    const element = document.querySelector('#home');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
-    <section id="contact" className="py-24 bg-bg-primary relative overflow-hidden border-t border-border-soft">
-      {/* Background glow blobs */}
-      <div className="absolute bottom-10 left-10 w-[300px] h-[300px] bg-green-accent/3 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute top-10 right-10 w-[300px] h-[300px] bg-purple-accent/3 rounded-full blur-[120px] pointer-events-none" />
+    <section id="contact" className="py-28 bg-[#030303] relative overflow-hidden border-t border-zinc-900 flex flex-col items-center">
+      
+      {/* "<- Back" Button in the Top Left */}
+      <button 
+        onClick={handleBack}
+        className="absolute top-10 left-6 md:left-12 flex items-center gap-2 px-4 py-2 border border-white/5 bg-[#0a0a0c]/85 hover:bg-zinc-900 rounded-full text-xs font-mono tracking-wider text-zinc-300 hover:text-white transition-all cursor-pointer z-30 shadow-md"
+      >
+        &larr; Back
+      </button>
 
-      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-        
-        {/* Section Header */}
-        <div className="flex flex-col space-y-3 mb-16">
-          <span className="font-mono text-[11px] uppercase tracking-[3px] text-txt-muted">
-            GET IN TOUCH
-          </span>
-          <h2 className="font-heading font-black text-4xl md:text-5xl text-txt-primary tracking-tight">
-            Let's work together.
-          </h2>
-          <p className="font-sans text-sm text-txt-muted max-w-xl">
-            Have an exciting role, full-time opportunity, or system build in mind? Send an email or fill out the secure terminal below.
-          </p>
+      {/* Massive Scrolling Text Ticker in the Background */}
+      <div className="absolute top-[8%] left-0 w-full pointer-events-none z-0 opacity-15 overflow-hidden flex flex-col gap-4 select-none">
+        <div className="animate-marquee-left flex whitespace-nowrap text-zinc-800 text-6xl md:text-8xl lg:text-9xl font-black uppercase tracking-tighter">
+          <span>LET'S BUILD SOMETHING • AVAILABLE FOR OPPORTUNITY • LET'S BUILD SOMETHING • AVAILABLE FOR OPPORTUNITY •&nbsp;</span>
         </div>
+        <div className="animate-marquee-right flex whitespace-nowrap text-zinc-800 text-6xl md:text-8xl lg:text-9xl font-black uppercase tracking-tighter">
+          <span>CLEAN CODE & INTELLIGENCE • CRAFTING SOLUTIONS • CLEAN CODE & INTELLIGENCE • CRAFTING SOLUTIONS •&nbsp;</span>
+        </div>
+      </div>
 
-        {/* Form and info row */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+      {/* Content Layout Grid */}
+      <div className="max-w-6xl w-full px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-16 items-center relative z-10 mt-20">
+        
+        {/* LEFT COLUMN: Premium Lanyard ID Card Badge */}
+        <div className="lg:col-span-5 flex flex-col items-center justify-center">
           
-          {/* LEFT: Contact Cards (Stacked) - 5 Cols */}
-          <div className="lg:col-span-5 space-y-4">
-            
-            {/* Email Card */}
-            <motion.a
-              href={`mailto:${personalInfo.email}`}
-              whileHover={{ scale: 1.01 }}
-              className="group bg-bg-card border border-border-soft hover:border-border-hi hover:shadow-glow-green rounded-xl p-6 backdrop-blur-card transition-all duration-300 flex items-start space-x-4 cursor-pointer"
-            >
-              <div className="p-3 bg-green-dim rounded-xl border border-green-accent/20 text-green-accent select-none">
-                <Mail size={18} />
-              </div>
-              <div className="flex-1 min-w-0">
-                <span className="font-mono text-[9px] uppercase tracking-wider text-txt-muted font-bold">Email</span>
-                <h4 className="font-heading font-black text-base text-txt-primary mt-0.5 truncate select-text">
-                  {personalInfo.email}
-                </h4>
-                <p className="font-sans text-xs text-txt-muted mt-1 select-none">Click to compose mail</p>
-              </div>
-            </motion.a>
+          {/* Lanyard slot connection */}
+          <div className="w-12 h-3.5 bg-zinc-900 border border-zinc-800 rounded-full mb-[-8px] z-20 shadow-inner" />
+          
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="w-full max-w-[290px] bg-white border border-zinc-200 rounded-[2rem] p-6 shadow-2xl relative overflow-hidden flex flex-col items-center select-none"
+          >
+            {/* Top Corner Green accents */}
+            <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-emerald-500/15 via-transparent to-transparent pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-16 h-16 bg-gradient-to-tr from-emerald-500/10 via-transparent to-transparent pointer-events-none" />
 
-            {/* Phone Card */}
-            <motion.a
-              href={`tel:${personalInfo.phone.replace(/\s+/g, '')}`}
-              whileHover={{ scale: 1.01 }}
-              className="group bg-bg-card border border-border-soft hover:border-border-hi hover:shadow-glow-purple rounded-xl p-6 backdrop-blur-card transition-all duration-300 flex items-start space-x-4 cursor-pointer"
-            >
-              <div className="p-3 bg-purple-dim rounded-xl border border-purple-accent/20 text-purple-accent select-none">
-                <Phone size={18} />
-              </div>
-              <div className="flex-1 min-w-0">
-                <span className="font-mono text-[9px] uppercase tracking-wider text-txt-muted font-bold">Phone</span>
-                <h4 className="font-heading font-black text-base text-txt-primary mt-0.5 truncate select-text">
-                  {personalInfo.phone}
-                </h4>
-                <p className="font-sans text-xs text-txt-muted mt-1 select-none">Click to place mobile call</p>
-              </div>
-            </motion.a>
-
-            {/* Location Card */}
-            <div className="bg-bg-card border border-border-soft hover:border-border-hi rounded-xl p-6 backdrop-blur-card transition-all duration-300 flex items-start space-x-4 select-none">
-              <div className="p-3 bg-amber-dim rounded-xl border border-amber-accent/20 text-amber-accent">
-                <MapPin size={18} />
-              </div>
-              <div className="flex-1 min-w-0">
-                <span className="font-mono text-[9px] uppercase tracking-wider text-txt-muted font-bold">Location</span>
-                <h4 className="font-heading font-black text-base text-txt-primary mt-0.5 select-text">
-                  {personalInfo.location}
-                </h4>
-                <p className="font-sans text-xs text-txt-muted mt-1">Srivilliputtur, India (Remote Available)</p>
+            {/* Card Header */}
+            <div className="w-full flex justify-between items-center pb-4 border-b border-zinc-100">
+              <span className="font-logo italic font-black text-sm tracking-tight text-zinc-800">
+                M. MURUGAN
+              </span>
+              <div className="flex items-center gap-1.5 bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded-full">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="font-mono text-[8px] font-bold text-emerald-700 tracking-wider uppercase">ONLINE</span>
               </div>
             </div>
 
-            {/* Status Card */}
-            <div className="bg-bg-card border border-border-soft hover:border-border-hi rounded-xl p-6 backdrop-blur-card transition-all duration-300 flex items-start space-x-4 select-none">
-              <div className="p-3 bg-green-dim rounded-xl border border-green-accent/20 text-green-accent">
-                <span className="relative flex h-3 w-3">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-accent opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-green-accent"></span>
+            {/* Profile Avatar Frame */}
+            <div className="relative w-28 h-28 mx-auto mt-6 rounded-full border-2 border-emerald-500 p-1.5 shadow-md">
+              <img 
+                src="/developer_avatar.png" 
+                className="w-full h-full object-cover rounded-full" 
+                alt="Murugan S" 
+              />
+            </div>
+
+            {/* Name & Title */}
+            <div className="text-center mt-4">
+              <h4 className="font-heading font-black text-lg text-zinc-900 tracking-tight">
+                {personalInfo.name}
+              </h4>
+              <p className="font-mono text-[9px] font-bold text-emerald-600 tracking-widest uppercase mt-0.5">
+                FULL STACK & AI DEVELOPER
+              </p>
+            </div>
+
+            {/* Info Table */}
+            <div className="w-full border border-zinc-200 bg-zinc-50/50 rounded-xl p-3.5 mt-6 space-y-2 text-left font-mono text-[9px] text-zinc-700">
+              <div className="flex justify-between border-b border-zinc-100 pb-1.5">
+                <span className="text-zinc-400 uppercase tracking-wider">EMAIL :</span>
+                <span className="font-semibold select-text text-zinc-800 truncate max-w-[150px]">
+                  {personalInfo.email}
                 </span>
               </div>
-              <div className="flex-1 min-w-0">
-                <span className="font-mono text-[9px] uppercase tracking-wider text-txt-muted font-bold">Status</span>
-                <h4 className="font-heading font-black text-base text-green-accent mt-0.5">
-                  {personalInfo.status}
-                </h4>
-                <p className="font-sans text-xs text-txt-muted mt-1">Open to Full-Time, Remote & Freelance contracts.</p>
+              <div className="flex justify-between border-b border-zinc-100 pb-1.5">
+                <span className="text-zinc-400 uppercase tracking-wider">PHONE :</span>
+                <span className="font-semibold select-text text-zinc-800">
+                  {personalInfo.phone}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-zinc-400 uppercase tracking-wider">LOC :</span>
+                <span className="font-semibold text-zinc-800">
+                  {personalInfo.location.split(',')[0]}, India
+                </span>
               </div>
             </div>
 
-            {/* Social handles row */}
-            <div className="pt-4 flex items-center space-x-4 select-none">
-              <span className="font-mono text-[10px] uppercase tracking-wider text-txt-muted">Social Handles:</span>
-              <div className="flex space-x-2">
-                <a
-                  href={personalInfo.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2.5 bg-bg-card border border-border-soft hover:border-green-accent/30 hover:text-green-accent rounded-lg transition-all duration-200"
-                  aria-label="GitHub Profile"
-                >
-                  <Github size={16} />
-                </a>
-                <a
-                  href={personalInfo.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2.5 bg-bg-card border border-border-soft hover:border-green-accent/30 hover:text-green-accent rounded-lg transition-all duration-200"
-                  aria-label="LinkedIn Profile"
-                >
-                  <Linkedin size={16} />
-                </a>
-              </div>
+            {/* Barcode representation */}
+            <div className="flex justify-center items-end gap-[2px] h-7 mt-6 w-full opacity-80">
+              <div className="w-[2px] h-full bg-black" />
+              <div className="w-[1px] h-full bg-black" />
+              <div className="w-[3px] h-[85%] bg-black" />
+              <div className="w-[1px] h-full bg-black" />
+              <div className="w-[2px] h-[85%] bg-black" />
+              <div className="w-[4px] h-full bg-black" />
+              <div className="w-[1px] h-full bg-black" />
+              <div className="w-[3px] h-[85%] bg-black" />
+              <div className="w-[2px] h-full bg-black" />
+              <div className="w-[1px] h-[85%] bg-black" />
+              <div className="w-[4px] h-full bg-black" />
+              <div className="w-[2px] h-[85%] bg-black" />
+              <div className="w-[1px] h-full bg-black" />
+              <div className="w-[3px] h-full bg-black" />
+              <div className="w-[2px] h-[85%] bg-black" />
+              <div className="w-[1px] h-full bg-black" />
+              <div className="w-[2px] h-full bg-black" />
+            </div>
+            <div className="text-center font-mono text-[7px] text-zinc-400 mt-1.5 tracking-[0.2em]">
+              MS-8778987102-2026
             </div>
 
+          </motion.div>
+        </div>
+
+        {/* RIGHT COLUMN: Modern Clean Contact Form */}
+        <div className="lg:col-span-7 flex flex-col">
+          <div className="mb-8 select-none">
+            <h2 className="font-heading font-black text-4xl sm:text-5xl md:text-6xl text-white tracking-tight leading-none uppercase">
+              LET'S TALK
+            </h2>
+            <p className="font-sans text-sm text-zinc-400 mt-2">
+              Have an Idea? Let's build something extraordinary together.
+            </p>
           </div>
 
-          {/* RIGHT: Contact Form Card - 7 Cols */}
-          <div className="lg:col-span-7 bg-bg-card border border-border-soft rounded-xl p-8 backdrop-blur-card hover:border-border-hi transition-all duration-300">
-            <h3 className="font-heading font-black text-lg text-txt-primary mb-6 flex items-center justify-between border-b border-border-soft pb-4 select-none">
-              <span>Secure Dispatch Terminal</span>
-              <span className="font-mono text-[9px] uppercase tracking-widest text-txt-dim">SSL_ENCRYPTED</span>
-            </h3>
-
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                {/* Name */}
-                <div className="flex flex-col space-y-1.5">
-                  <label htmlFor="name" className="font-mono text-[10px] uppercase tracking-wider text-txt-muted">
-                    Your Name <span className="text-green-accent">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    disabled={isSubmitting}
-                    className="bg-bg-primary text-txt-primary text-xs md:text-sm font-sans border border-border-soft rounded-lg px-4 py-3 focus:outline-none focus:border-green-accent/50 focus:ring-1 focus:ring-green-accent/20 transition-all duration-200 disabled:opacity-50"
-                    placeholder="Enter name"
-                  />
-                </div>
-
-                {/* Email */}
-                <div className="flex flex-col space-y-1.5">
-                  <label htmlFor="email" className="font-mono text-[10px] uppercase tracking-wider text-txt-muted">
-                    Your Email <span className="text-green-accent">*</span>
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    disabled={isSubmitting}
-                    className="bg-bg-primary text-txt-primary text-xs md:text-sm font-sans border border-border-soft rounded-lg px-4 py-3 focus:outline-none focus:border-green-accent/50 focus:ring-1 focus:ring-green-accent/20 transition-all duration-200 disabled:opacity-50"
-                    placeholder="Enter email address"
-                  />
-                </div>
-              </div>
-
-              {/* Subject */}
-              <div className="flex flex-col space-y-1.5">
-                <label htmlFor="subject" className="font-mono text-[10px] uppercase tracking-wider text-txt-muted">
-                  Message Subject
-                </label>
-                <input
-                  type="text"
-                  id="subject"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  disabled={isSubmitting}
-                  className="bg-bg-primary text-txt-primary text-xs md:text-sm font-sans border border-border-soft rounded-lg px-4 py-3 focus:outline-none focus:border-green-accent/50 focus:ring-1 focus:ring-green-accent/20 transition-all duration-200 disabled:opacity-50"
-                  placeholder="Enter subject heading"
-                />
-              </div>
-
-              {/* Message */}
-              <div className="flex flex-col space-y-1.5">
-                <label htmlFor="message" className="font-mono text-[10px] uppercase tracking-wider text-txt-muted">
-                  Detailed Inquiry <span className="text-green-accent">*</span>
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                  rows={5}
-                  disabled={isSubmitting}
-                  className="bg-bg-primary text-txt-primary text-xs md:text-sm font-sans border border-border-soft rounded-lg px-4 py-3 focus:outline-none focus:border-green-accent/50 focus:ring-1 focus:ring-green-accent/20 transition-all duration-200 disabled:opacity-50 resize-none"
-                  placeholder="Draft your query details here..."
-                />
-              </div>
-
-              {/* Submit button with clip path */}
-              <button
-                type="submit"
+          <form onSubmit={handleSubmit} className="space-y-7">
+            {/* Name */}
+            <div className="flex flex-col space-y-1.5">
+              <label htmlFor="name" className="font-mono text-[9px] uppercase tracking-[0.25em] text-zinc-500 font-bold">
+                YOUR NAME
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
                 disabled={isSubmitting}
-                style={{ clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%)' }}
-                className="w-full bg-green-accent text-bg-primary font-mono text-xs md:text-sm font-bold py-3.5 hover:bg-green-accent/95 transition-all duration-200 cursor-pointer shadow-lg shadow-green-accent/10 hover:shadow-green-accent/20 flex items-center justify-center space-x-2 border border-green-accent disabled:opacity-50"
+                className="border-b border-zinc-800 bg-transparent text-white px-0 py-3 focus:border-emerald-500 focus:outline-none transition-colors w-full font-sans text-sm placeholder:text-zinc-700 disabled:opacity-50"
+                placeholder="ENTER NAME"
+              />
+            </div>
+
+            {/* Email */}
+            <div className="flex flex-col space-y-1.5">
+              <label htmlFor="email" className="font-mono text-[9px] uppercase tracking-[0.25em] text-zinc-500 font-bold">
+                YOUR EMAIL
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                disabled={isSubmitting}
+                className="border-b border-zinc-800 bg-transparent text-white px-0 py-3 focus:border-emerald-500 focus:outline-none transition-colors w-full font-sans text-sm placeholder:text-zinc-700 disabled:opacity-50"
+                placeholder="ENTER EMAIL ADDRESS"
+              />
+            </div>
+
+            {/* Subject */}
+            <div className="flex flex-col space-y-1.5">
+              <label htmlFor="subject" className="font-mono text-[9px] uppercase tracking-[0.25em] text-zinc-500 font-bold">
+                SUBJECT
+              </label>
+              <input
+                type="text"
+                id="subject"
+                name="subject"
+                value={formData.subject}
+                onChange={handleChange}
+                disabled={isSubmitting}
+                className="border-b border-zinc-800 bg-transparent text-white px-0 py-3 focus:border-emerald-500 focus:outline-none transition-colors w-full font-sans text-sm placeholder:text-zinc-700 disabled:opacity-50"
+                placeholder="ENTER TOPIC OR PROJECT TYPE"
+              />
+            </div>
+
+            {/* Message */}
+            <div className="flex flex-col space-y-1.5">
+              <label htmlFor="message" className="font-mono text-[9px] uppercase tracking-[0.25em] text-zinc-500 font-bold">
+                TELL ME ABOUT YOUR PROJECT...
+              </label>
+              <textarea
+                id="message"
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
+                required
+                rows={3}
+                disabled={isSubmitting}
+                className="border-b border-zinc-800 bg-transparent text-white px-0 py-3 focus:border-emerald-500 focus:outline-none transition-colors w-full font-sans text-sm placeholder:text-zinc-700 disabled:opacity-50 resize-none"
+                placeholder="WRITE YOUR ENQUIRY HERE..."
+              />
+            </div>
+
+            {/* Bottom Actions Row */}
+            <div className="pt-6 flex flex-wrap items-center justify-between gap-6 border-t border-zinc-900 select-none">
+              
+              {/* Ready to send / Submit trigger */}
+              <div className="flex items-center gap-6">
+                <div className="flex flex-col">
+                  <span className="font-mono text-[8px] uppercase tracking-[0.2em] text-zinc-500 font-semibold">
+                    READY TO SEND
+                  </span>
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="font-heading font-black text-2xl sm:text-3xl text-white hover:text-emerald-400 tracking-tight transition-colors flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                  >
+                    {isSubmitting ? 'SENDING...' : 'SEND MESSAGE'}
+                  </button>
+                </div>
+
+                {/* Submitting Circle Button */}
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-12 h-12 rounded-full bg-white text-black hover:bg-emerald-400 hover:text-black flex items-center justify-center transition-all duration-300 shadow-lg cursor-pointer disabled:opacity-50 transform hover:scale-105"
+                  aria-label="Submit message"
+                >
+                  {isSubmitting ? (
+                    <Loader2 size={18} className="animate-spin" />
+                  ) : (
+                    <ArrowUpRight size={18} />
+                  )}
+                </button>
+              </div>
+
+              {/* Scroll back to top circle button */}
+              <button
+                type="button"
+                onClick={handleBack}
+                className="w-12 h-12 rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-700 flex items-center justify-center transition-all duration-300 shadow-md cursor-pointer transform hover:scale-105"
+                title="Back to Top"
               >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 size={16} className="animate-spin" />
-                    <span>TRANSMITTING MESSAGE...</span>
-                  </>
-                ) : (
-                  <>
-                    <Send size={14} />
-                    <span>SEND MESSAGE TERMINAL</span>
-                  </>
-                )}
+                <ArrowUp size={18} />
               </button>
-            </form>
+
+            </div>
+          </form>
+        </div>
+
+      </div>
+
+      {/* Infinite Horizontal Social Handles Marquee */}
+      <div className="w-full overflow-hidden border-t border-b border-zinc-900/50 py-6 bg-zinc-950/20 my-16 select-none">
+        <div className="animate-marquee-left flex items-center gap-12 whitespace-nowrap text-zinc-800 text-xl sm:text-2xl font-black uppercase tracking-widest">
+          <span>in LINKEDIN • @ INSTAGRAM • ✉ EMAIL • ☏ PHONE • ⚡ DISCORD • github GITHUB •&nbsp;</span>
+          <span>in LINKEDIN • @ INSTAGRAM • ✉ EMAIL • ☏ PHONE • ⚡ DISCORD • github GITHUB •&nbsp;</span>
+          <span>in LINKEDIN • @ INSTAGRAM • ✉ EMAIL • ☏ PHONE • ⚡ DISCORD • github GITHUB •&nbsp;</span>
+        </div>
+      </div>
+
+      {/* Footer Pill Container */}
+      <div className="max-w-4xl w-full px-6 relative z-10 flex flex-col items-center">
+        <div className="w-full bg-[#08080a]/90 border border-white/5 backdrop-blur-md rounded-[2rem] p-6 md:p-8 flex flex-col md:flex-row justify-between items-center gap-6 shadow-2xl relative select-none">
+          
+          {/* Left info block */}
+          <div className="flex flex-col items-center md:items-start text-center md:text-left gap-1">
+            <div className="flex items-center gap-2">
+              <span className="font-logo italic font-black text-base tracking-tight text-white">
+                Murugan S
+              </span>
+              <div className="flex items-center gap-1 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full">
+                <span className="w-1 h-1 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="font-mono text-[7px] font-bold text-emerald-400 tracking-wider">Active Status</span>
+              </div>
+            </div>
+            <p className="font-sans text-[10px] text-zinc-500 font-semibold mt-1">
+              © 2026 • HANDCRAFTED WITH 💜 IN INDIA
+            </p>
+            <p className="font-mono text-[8px] text-zinc-600 tracking-wider uppercase">
+              Engineered for Performance & Scalability
+            </p>
+          </div>
+
+          {/* Right socials & scroll actions */}
+          <div className="flex flex-col items-center md:items-end gap-3.5">
+            <div className="flex gap-2">
+              <a
+                href={personalInfo.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-8 h-8 rounded-full bg-zinc-900 border border-zinc-800/80 text-zinc-400 hover:text-white hover:border-zinc-700 flex items-center justify-center transition-colors"
+                aria-label="GitHub"
+              >
+                <Github size={13} />
+              </a>
+              <a
+                href={personalInfo.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-8 h-8 rounded-full bg-zinc-900 border border-zinc-800/80 text-zinc-400 hover:text-white hover:border-zinc-700 flex items-center justify-center transition-colors"
+                aria-label="LinkedIn"
+              >
+                <Linkedin size={13} />
+              </a>
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-8 h-8 rounded-full bg-zinc-900 border border-zinc-800/80 text-zinc-400 hover:text-white hover:border-zinc-700 flex items-center justify-center transition-colors"
+                aria-label="Instagram"
+              >
+                <Instagram size={13} />
+              </a>
+              <a
+                href={`mailto:${personalInfo.email}`}
+                className="w-8 h-8 rounded-full bg-zinc-900 border border-zinc-800/80 text-zinc-400 hover:text-white hover:border-zinc-700 flex items-center justify-center transition-colors"
+                aria-label="Email"
+              >
+                <Mail size={13} />
+              </a>
+            </div>
+            
+            <button
+              onClick={handleBack}
+              className="text-[10px] font-mono tracking-widest text-zinc-500 hover:text-zinc-200 transition-colors uppercase cursor-pointer"
+            >
+              Back to Top &uarr;
+            </button>
+          </div>
+
+          {/* Centered micro-location pill at the bottom edge */}
+          <div className="absolute bottom-[-10px] left-1/2 transform -translate-x-1/2 bg-[#0d0d11] border border-zinc-800 rounded-full px-4 py-1 text-[8px] font-mono text-zinc-500 tracking-wider shadow-md">
+            Srivilliputtur, Tamil Nadu, India
           </div>
 
         </div>
-
       </div>
 
       {/* SUCCESS TOAST NOTIFICATION */}
@@ -280,19 +398,19 @@ export default function Contact() {
             initial={{ opacity: 0, y: 50, x: 50 }}
             animate={{ opacity: 1, y: 0, x: 0 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="fixed bottom-6 right-6 z-50 max-w-sm bg-bg-card border border-green-accent/30 rounded-xl p-4 shadow-xl backdrop-blur-card flex items-center space-x-3"
+            className="fixed bottom-6 right-6 z-50 max-w-sm bg-zinc-900 border border-emerald-500/20 rounded-xl p-4 shadow-2xl backdrop-blur-md flex items-center space-x-3 select-none"
           >
-            <div className="flex h-3 w-3 flex-shrink-0 select-none">
-              <span className="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-green-accent opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-3 w-3 bg-green-accent"></span>
+            <div className="p-2 bg-emerald-500/10 rounded-lg text-emerald-400">
+              <CheckCircle2 size={18} />
             </div>
             <div className="flex-1 text-xs">
-              <p className="font-mono font-bold text-green-accent">MESSAGE RECEIVED!</p>
-              <p className="font-sans text-txt-muted mt-0.5">Thank you, Murugan S will get back to you shortly.</p>
+              <p className="font-mono font-bold text-white uppercase tracking-wider">MESSAGE SENT!</p>
+              <p className="font-sans text-zinc-400 mt-0.5">Thank you. Your inquiry has been transmitted successfully.</p>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
+      
     </section>
   );
 }
