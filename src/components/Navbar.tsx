@@ -3,10 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { Home, User, Code, Briefcase, Mail, ChevronDown, Award, Compass, Heart } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { personalInfo } from '../data';
 
 interface NavbarProps {
   activeSection: string;
@@ -14,155 +13,215 @@ interface NavbarProps {
 
 export default function Navbar({ activeSection }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      setScrolled(window.scrollY > 30);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = [
-    { name: 'About', href: '#home' },
-    { name: 'Disciplines', href: '#disciplines' },
-    { name: 'Credentials', href: '#certifications' },
-    { name: 'Journey', href: '#journey' },
-    { name: 'Skills', href: '#skills' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Contact', href: '#contact' },
-  ];
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const handleLinkClick = (href: string) => {
-    setMobileMenuOpen(false);
+    setDropdownOpen(false);
     const element = document.querySelector(href);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
+  // Determine active states for main items
+  const isHomeActive = activeSection === 'home';
+  const isAboutActive = ['disciplines', 'certifications', 'journey'].includes(activeSection);
+  const isSkillsActive = activeSection === 'skills';
+  const isWorkActive = activeSection === 'projects';
+  const isContactActive = activeSection === 'contact';
+
   return (
     <>
-      <nav
-        id="navbar"
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-          scrolled
-            ? 'bg-bg-primary/80 border-b border-border-soft backdrop-blur-md py-4'
-            : 'bg-transparent py-6'
-        }`}
-      >
-        <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
-          {/* Logo */}
+      {/* Top Header Bar */}
+      <header className="fixed top-0 left-0 w-full z-50 pointer-events-none">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 py-5 flex justify-between items-center relative w-full">
+          {/* Logo on the left (clickable & pointer-events-auto) */}
           <a
             href="#home"
             onClick={(e) => {
               e.preventDefault();
               handleLinkClick('#home');
             }}
-            className="font-mono text-lg font-bold tracking-tight text-green-accent flex items-center"
+            className="pointer-events-auto font-logo italic font-bold text-3xl tracking-tighter text-white hover:opacity-80 transition-opacity select-none"
           >
-            <span className="text-txt-muted">&lt;</span>
-            Murugan
-            <span className="text-txt-muted">&nbsp;/&gt;</span>
+            MS
           </a>
 
-          {/* Desktop Nav Links */}
-          <div className="hidden lg:flex items-center space-x-8">
-            {navLinks.map((link) => {
-              const isActive = activeSection === link.href.substring(1);
-              return (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleLinkClick(link.href);
-                  }}
-                  className={`relative text-sm font-medium tracking-wide transition-colors duration-200 hover:text-txt-primary ${
-                    isActive ? 'text-txt-primary' : 'text-txt-muted'
+          {/* Centered Pill Navigation (pointer-events-auto) */}
+          <div className="absolute left-1/2 transform -translate-x-1/2 pointer-events-auto">
+            <nav
+              className={`flex items-center gap-1 p-1 bg-zinc-950/60 border rounded-full transition-all duration-300 backdrop-blur-md ${
+                scrolled ? 'border-white/10 shadow-lg' : 'border-white/5'
+              }`}
+            >
+              {/* Home */}
+              <a
+                href="#home"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleLinkClick('#home');
+                }}
+                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium tracking-wide transition-all duration-200 ${
+                  isHomeActive
+                    ? 'bg-white/10 text-white shadow-sm'
+                    : 'text-zinc-400 hover:text-white hover:bg-white/5'
+                }`}
+              >
+                <Home size={13} className={isHomeActive ? 'text-white' : 'text-zinc-400'} />
+                <span className="hidden sm:inline">Home</span>
+              </a>
+
+              {/* About with Dropdown */}
+              <div
+                ref={dropdownRef}
+                className="relative"
+                onMouseEnter={() => setDropdownOpen(true)}
+                onMouseLeave={() => setDropdownOpen(false)}
+              >
+                <button
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                  className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium tracking-wide transition-all duration-200 cursor-pointer ${
+                    isAboutActive
+                      ? 'bg-white/10 text-white shadow-sm'
+                      : 'text-zinc-400 hover:text-white hover:bg-white/5'
                   }`}
                 >
-                  {link.name}
-                  {isActive && (
-                    <motion.span
-                      layoutId="navUnderline"
-                      className="absolute -bottom-1 left-0 w-full h-[2px] bg-green-accent"
-                      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                    />
+                  <User size={13} className={isAboutActive ? 'text-white' : 'text-zinc-400'} />
+                  <span className="hidden sm:inline">About</span>
+                  <ChevronDown size={11} className={`transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`} />
+                </button>
+
+                {/* Dropdown Menu */}
+                <AnimatePresence>
+                  {dropdownOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 8, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 8, scale: 0.95 }}
+                      transition={{ duration: 0.15 }}
+                      className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-44 bg-zinc-950/95 border border-white/10 rounded-xl p-1.5 shadow-2xl backdrop-blur-lg z-50"
+                    >
+                      <a
+                        href="#journey"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleLinkClick('#journey');
+                        }}
+                        className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+                          activeSection === 'journey' ? 'bg-white/10 text-white' : 'text-zinc-400 hover:text-white hover:bg-white/5'
+                        }`}
+                      >
+                        <Compass size={12} />
+                        <span>My Journey</span>
+                      </a>
+                      <a
+                        href="#disciplines"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleLinkClick('#disciplines');
+                        }}
+                        className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+                          activeSection === 'disciplines' ? 'bg-white/10 text-white' : 'text-zinc-400 hover:text-white hover:bg-white/5'
+                        }`}
+                      >
+                        <Heart size={12} />
+                        <span>Disciplines</span>
+                      </a>
+                      <a
+                        href="#certifications"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleLinkClick('#certifications');
+                        }}
+                        className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+                          activeSection === 'certifications' ? 'bg-white/10 text-white' : 'text-zinc-400 hover:text-white hover:bg-white/5'
+                        }`}
+                      >
+                        <Award size={12} />
+                        <span>Certifications</span>
+                      </a>
+                    </motion.div>
                   )}
-                </a>
-              );
-            })}
-          </div>
-
-          {/* Right Status Badge */}
-          <div className="hidden sm:flex items-center space-x-2 bg-green-dim border border-green-accent/20 px-3 py-1.5 rounded-full">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-accent opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-accent"></span>
-            </span>
-            <span className="font-mono text-[11px] font-semibold text-green-accent uppercase tracking-wider">
-              {personalInfo.status}
-            </span>
-          </div>
-
-          {/* Mobile Menu Trigger */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden text-txt-primary focus:outline-none focus:ring-1 focus:ring-green-accent p-1"
-            aria-label="Toggle menu"
-          >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-      </nav>
-
-      {/* Mobile Menu Overlay */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 top-[60px] bg-bg-primary/95 backdrop-blur-lg z-45 lg:hidden flex flex-col justify-start p-8 pt-12 space-y-6 border-t border-border-soft"
-          >
-            {navLinks.map((link) => {
-              const isActive = activeSection === link.href.substring(1);
-              return (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleLinkClick(link.href);
-                  }}
-                  className={`text-xl font-heading font-medium tracking-wide border-b border-border-soft pb-3 flex justify-between items-center ${
-                    isActive ? 'text-green-accent' : 'text-txt-muted'
-                  }`}
-                >
-                  <span>{link.name}</span>
-                  {isActive && <span className="font-mono text-xs">&lt;active&gt;</span>}
-                </a>
-              );
-            })}
-
-            {/* Mobile Status Badge */}
-            <div className="pt-6 flex justify-center">
-              <div className="flex items-center space-x-2 bg-green-dim border border-green-accent/20 px-4 py-2 rounded-full w-full justify-center">
-                <span className="relative flex h-2.5 w-2.5">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-accent opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-accent"></span>
-                </span>
-                <span className="font-mono text-xs font-semibold text-green-accent uppercase tracking-widest">
-                  {personalInfo.status}
-                </span>
+                </AnimatePresence>
               </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+
+              {/* Skills */}
+              <a
+                href="#skills"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleLinkClick('#skills');
+                }}
+                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium tracking-wide transition-all duration-200 ${
+                  isSkillsActive
+                    ? 'bg-white/10 text-white shadow-sm'
+                    : 'text-zinc-400 hover:text-white hover:bg-white/5'
+                }`}
+              >
+                <Code size={13} className={isSkillsActive ? 'text-white' : 'text-zinc-400'} />
+                <span className="hidden sm:inline">Skills</span>
+              </a>
+
+              {/* Work */}
+              <a
+                href="#projects"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleLinkClick('#projects');
+                }}
+                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium tracking-wide transition-all duration-200 ${
+                  isWorkActive
+                    ? 'bg-white/10 text-white shadow-sm'
+                    : 'text-zinc-400 hover:text-white hover:bg-white/5'
+                }`}
+              >
+                <Briefcase size={13} className={isWorkActive ? 'text-white' : 'text-zinc-400'} />
+                <span className="hidden sm:inline">Work</span>
+              </a>
+
+              {/* Contact */}
+              <a
+                href="#contact"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleLinkClick('#contact');
+                }}
+                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium tracking-wide transition-all duration-200 ${
+                  isContactActive
+                    ? 'bg-white/10 text-white shadow-sm'
+                    : 'text-zinc-400 hover:text-white hover:bg-white/5'
+                }`}
+              >
+                <Mail size={13} className={isContactActive ? 'text-white' : 'text-zinc-400'} />
+                <span className="hidden sm:inline">Contact</span>
+              </a>
+            </nav>
+          </div>
+
+          {/* Right Spacer to balance the layout */}
+          <div className="w-10 h-10 hidden md:block"></div>
+        </div>
+      </header>
     </>
   );
 }

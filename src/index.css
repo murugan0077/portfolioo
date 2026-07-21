@@ -1,9 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&family=Outfit:wght@800;900&family=Cormorant+Garamond:ital,wght@1,600;1,700&display=swap');
 @import "tailwindcss";
 
 @theme {
   --font-sans: "Nunito", "Inter", ui-sans-serif, sans-serif;
-  --font-heading: "Nunito", sans-serif;
+  --font-heading: "Outfit", sans-serif;
+  --font-logo: "Cormorant Garamond", serif;
   --font-mono: "Space Mono", monospace;
 
   --color-bg-primary: #06060a;

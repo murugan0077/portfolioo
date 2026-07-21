@@ -5,50 +5,22 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { ChevronDown, ArrowRight } from 'lucide-react';
+import { Github, Linkedin, Instagram, MessageSquare, Terminal, ArrowRight } from 'lucide-react';
 import { personalInfo } from '../data';
 
-// Custom CountUp Component for stats animation
-function CountUp({ end, decimals = 0, suffix = '' }: { end: number; decimals?: number; suffix?: string }) {
-  const [value, setValue] = useState(0);
+export default function Hero() {
+  const [dots, setDots] = useState<{ x: number; y: number; size: number; delay: number }[]>([]);
 
   useEffect(() => {
-    let start = 0;
-    const duration = 1200; // ms
-    const startTime = performance.now();
-
-    const update = (now: number) => {
-      const elapsed = now - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      
-      // Easing out quadratic
-      const ease = progress * (2 - progress);
-      const current = start + ease * (end - start);
-      
-      setValue(current);
-
-      if (progress < 1) {
-        requestAnimationFrame(update);
-      } else {
-        setValue(end);
-      }
-    };
-
-    requestAnimationFrame(update);
-  }, [end]);
-
-  return <span>{value.toFixed(decimals)}{suffix}</span>;
-}
-
-export default function Hero() {
-  const [isCopied, setIsCopied] = useState(false);
-
-  const handleScrollDown = () => {
-    const nextSection = document.querySelector('#disciplines');
-    if (nextSection) {
-      nextSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+    // Generate random background stars/dots once on mount to avoid hydration mismatch
+    const generatedDots = Array.from({ length: 45 }).map(() => ({
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: Math.random() * 2 + 1,
+      delay: Math.random() * 5,
+    }));
+    setDots(generatedDots);
+  }, []);
 
   const handleContactScroll = () => {
     const element = document.querySelector('#contact');
@@ -57,286 +29,223 @@ export default function Hero() {
     }
   };
 
-  const handleProjectsScroll = () => {
-    const element = document.querySelector('#projects');
+  const handleDisciplinesScroll = () => {
+    const element = document.querySelector('#disciplines');
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
-  // Stagger wrapper
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.2,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { type: 'spring', stiffness: 100, damping: 20 },
-    },
-  };
-
-  const codeString = `public class Developer {
-  String name       = "Murugan S";
-  String role       = "Full Stack Developer";
-  String location   = "Tamil Nadu, India";
-  boolean available = true;
-
-  String[] stack = {
-    "Java", "Spring Boot", "React",
-    "TypeScript", "PostgreSQL", "Docker"
-  };
-
-  String build() {
-    return "Scalable. Clean. Impactful.";
-  }
-
-  String getStatus() {
-    return available
-      ? "Open to opportunities 🟢"
-      : "Currently engaged";
-  }
-}`;
-
   return (
     <section
       id="home"
-      className="relative min-height-screen min-h-screen bg-bg-primary pt-32 pb-20 flex flex-col justify-center overflow-hidden"
+      className="relative min-h-screen bg-[#030303] flex flex-col justify-center items-center overflow-hidden py-24 select-none"
     >
-      {/* Background glow blobs */}
-      <div className="absolute top-1/4 left-10 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-green-accent/5 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute top-1/3 right-10 w-[250px] md:w-[400px] h-[250px] md:h-[400px] bg-purple-accent/5 rounded-full blur-[100px] pointer-events-none" />
-
-      <div className="max-w-7xl mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
-        
-        {/* Left Column (60%) */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="lg:col-span-7 flex flex-col space-y-6"
-        >
-          {/* Eyebrow badge */}
-          <motion.div variants={itemVariants} className="flex">
-            <span className="font-mono text-[10px] md:text-[11px] uppercase tracking-[3px] text-green-accent bg-green-dim border border-green-accent/20 px-3 py-1 rounded-full">
-              Full Stack Development
-            </span>
-          </motion.div>
-
-          {/* Heading */}
-          <motion.h1 variants={itemVariants} className="flex flex-col">
-            <span className="font-heading font-black text-5xl sm:text-6xl md:text-7xl text-txt-primary tracking-tight">
-              Hi, I'm Murugan
-            </span>
-            <span className="font-heading font-black text-5xl sm:text-6xl md:text-7xl text-outline tracking-tight mt-1">
-              I build great
-            </span>
-            <span className="font-heading font-black text-5xl sm:text-6xl md:text-7xl text-outline-green text-green-accent tracking-tight mt-1">
-              software.
-            </span>
-          </motion.h1>
-
-          {/* Subtitle description */}
-          <motion.p
-            variants={itemVariants}
-            className="font-sans text-base md:text-lg text-txt-muted leading-relaxed max-w-xl"
-          >
-            Full Stack Developer specializing in <strong className="text-txt-primary font-semibold">Java, Spring Boot</strong> backend systems and <strong className="text-txt-primary font-semibold">React / TypeScript</strong> frontends. I craft clean, scalable products that solve real problems.
-          </motion.p>
-
-          {/* CTA Buttons with clip-path */}
-          <motion.div variants={itemVariants} className="flex flex-wrap gap-4 pt-2">
-            <button
-              onClick={handleProjectsScroll}
-              style={{ clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%)' }}
-              className="bg-green-accent text-bg-primary font-mono text-sm font-semibold px-6 py-3.5 hover:bg-green-accent/90 transition-all duration-200 cursor-pointer shadow-lg shadow-green-accent/10 hover:shadow-green-accent/20 flex items-center space-x-2 border border-green-accent"
-            >
-              <span>View Projects</span>
-              <ArrowRight size={16} />
-            </button>
-
-            <button
-              onClick={handleContactScroll}
-              style={{ clipPath: 'polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%)' }}
-              className="border border-green-accent/50 text-green-accent font-mono text-sm font-semibold px-6 py-3.5 hover:bg-green-dim transition-all duration-200 cursor-pointer flex items-center"
-            >
-              Get in Touch
-            </button>
-          </motion.div>
-
-          {/* Stats Row */}
+      {/* Background Star Dots (Twinkling) */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+        {dots.map((dot, i) => (
           <motion.div
-            variants={itemVariants}
-            className="grid grid-cols-3 gap-4 pt-10 border-t border-border-soft max-w-md w-full"
+            key={i}
+            className="absolute rounded-full bg-white"
+            style={{
+              left: `${dot.x}%`,
+              top: `${dot.y}%`,
+              width: `${dot.size}px`,
+              height: `${dot.size}px`,
+            }}
+            animate={{
+              opacity: [0.15, 0.75, 0.15],
+            }}
+            transition={{
+              duration: 3 + dot.delay,
+              repeat: Infinity,
+              ease: 'easeInOut',
+              delay: dot.delay,
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Background Diagonal Shooting Star Lines */}
+      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+        {/* Top line */}
+        <div 
+          className="absolute top-[18%] left-[30%] w-[160px] h-[1px] rotate-[35deg]"
+          style={{
+            background: 'linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0) 100%)',
+          }}
+        />
+        {/* Bottom line */}
+        <div 
+          className="absolute bottom-[28%] right-[22%] w-[220px] h-[1px] rotate-[35deg]"
+          style={{
+            background: 'linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0) 100%)',
+          }}
+        />
+      </div>
+
+      {/* Core Typography Layout Container */}
+      <div className="max-w-6xl w-full px-6 md:px-12 flex flex-col items-center justify-center relative z-10 text-center">
+        
+        {/* Left Subtext (Desktop: Absolute on the left, Mobile: Centered at the top) */}
+        <div className="lg:absolute lg:left-6 xl:left-12 lg:top-[12%] lg:text-left max-w-xs mb-8 lg:mb-0 select-none">
+          <p className="font-mono text-[9px] sm:text-[10px] tracking-[0.2em] leading-relaxed text-zinc-500 font-semibold uppercase">
+            MURUGAN S •
+            <br />
+            ARCHITECTING MODERN,
+            <br />
+            SCALABLE WEB PLATFORMS WITH
+            <br />
+            PREMIUM LOGIC.
+          </p>
+        </div>
+
+        {/* Massive Center Titles with Social Icons */}
+        <div className="flex flex-col items-center justify-center gap-1 sm:gap-2 max-w-full">
+          
+          {/* Row 1: AI & WEB + Github Icon */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.1 }}
+            className="flex items-center gap-3 sm:gap-5 md:gap-7"
           >
-            <div className="flex flex-col">
-              <span className="font-heading font-black text-3xl md:text-4xl text-txt-primary tracking-tight">
-                <CountUp end={1.7} decimals={1} suffix="+" />
-              </span>
-              <span className="font-mono text-[10px] md:text-[11px] uppercase tracking-wider text-txt-muted mt-1">
-                Years Exp.
-              </span>
-            </div>
-
-            <div className="flex flex-col border-l border-border-soft pl-4">
-              <span className="font-heading font-black text-3xl md:text-4xl text-txt-primary tracking-tight">
-                <CountUp end={8} suffix="+" />
-              </span>
-              <span className="font-mono text-[10px] md:text-[11px] uppercase tracking-wider text-txt-muted mt-1">
-                Projects
-              </span>
-            </div>
-
-            <div className="flex flex-col border-l border-border-soft pl-4">
-              <span className="font-heading font-black text-3xl md:text-4xl text-txt-primary tracking-tight">
-                <CountUp end={10} suffix="+" />
-              </span>
-              <span className="font-mono text-[10px] md:text-[11px] uppercase tracking-wider text-txt-muted mt-1">
-                Tech Stack
-              </span>
-            </div>
+            <h1 className="font-heading font-black text-4xl sm:text-6xl md:text-8xl lg:text-9xl text-white tracking-tighter leading-none select-none">
+              AI & WEB
+            </h1>
+            <a
+              href={personalInfo.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-zinc-600 hover:text-white transition-all duration-300 transform hover:scale-110 hover:-rotate-6 hover:shadow-[0_0_20px_rgba(255,255,255,0.15)] rounded-2xl p-1"
+              aria-label="GitHub profile"
+            >
+              <Github className="w-10 h-10 sm:w-16 sm:h-16 md:w-20 md:h-20 stroke-[1]" />
+            </a>
           </motion.div>
-        </motion.div>
 
-        {/* Right Column (40%) - IDE Code Window */}
+          {/* Row 2: Linkedin Icon + SOFTWARE */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.25 }}
+            className="flex items-center gap-3 sm:gap-5 md:gap-7"
+          >
+            <a
+              href={personalInfo.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-zinc-600 hover:text-white transition-all duration-300 transform hover:scale-110 hover:rotate-6 hover:shadow-[0_0_20px_rgba(255,255,255,0.15)] rounded-2xl p-1"
+              aria-label="LinkedIn profile"
+            >
+              <Linkedin className="w-10 h-10 sm:w-16 sm:h-16 md:w-20 md:h-20 stroke-[1]" />
+            </a>
+            <h1 className="font-heading font-black text-4xl sm:text-6xl md:text-8xl lg:text-9xl text-white tracking-tighter leading-none select-none">
+              SOFTWARE
+            </h1>
+          </motion.div>
+
+          {/* Row 3: DEVELOPER + Instagram/Email Icon */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="flex items-center gap-3 sm:gap-5 md:gap-7"
+          >
+            <h1 className="font-heading font-black text-4xl sm:text-6xl md:text-8xl lg:text-9xl text-white tracking-tighter leading-none select-none">
+              DEVELOPER
+            </h1>
+            <a
+              href="https://instagram.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-zinc-600 hover:text-white transition-all duration-300 transform hover:scale-110 hover:-rotate-6 hover:shadow-[0_0_20px_rgba(255,255,255,0.15)] rounded-2xl p-1"
+              aria-label="Instagram profile"
+            >
+              <Instagram className="w-10 h-10 sm:w-16 sm:h-16 md:w-20 md:h-20 stroke-[1]" />
+            </a>
+          </motion.div>
+
+        </div>
+
+        {/* Right Subtext (Desktop: Absolute on the right, Mobile: Centered at the bottom) */}
+        <div className="lg:absolute lg:right-6 xl:right-12 lg:bottom-[12%] lg:text-right max-w-xs mt-8 lg:mt-0 select-none">
+          <p className="font-mono text-[9px] sm:text-[10px] tracking-[0.18em] leading-relaxed text-zinc-500 font-semibold uppercase">
+            CRAFTING ULTRA-FAST REACT
+            <br />
+            APPLICATIONS
+            <br />
+            POWERED BY SPRING BOOT &
+            <br />
+            TYPESCRIPT.
+          </p>
+        </div>
+
+        {/* Resume Button */}
         <motion.div
-          initial={{ opacity: 0, x: 50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.4, type: 'spring' }}
-          className="lg:col-span-5 w-full flex justify-center"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="mt-14"
         >
-          <div className="w-full max-w-md bg-bg-card border border-border-soft rounded-xl shadow-card backdrop-blur-card overflow-hidden hover:border-border-hi transition-all duration-300">
-            {/* Title Bar */}
-            <div className="bg-bg-primary/60 border-b border-border-soft px-4 py-3 flex items-center justify-between">
-              {/* Window Controls */}
-              <div className="flex space-x-1.5">
-                <div className="w-3 h-3 rounded-full bg-[#ff5f57]" />
-                <div className="w-3 h-3 rounded-full bg-[#febc2e]" />
-                <div className="w-3 h-3 rounded-full bg-[#28c840]" />
-              </div>
-              
-              {/* File Name */}
-              <div className="font-mono text-xs text-txt-muted select-none flex items-center space-x-1.5">
-                <span className="text-amber-accent">☕</span>
-                <span>Developer.java</span>
-              </div>
-
-              {/* Copy button */}
-              <button
-                onClick={() => {
-                  navigator.clipboard.writeText(codeString);
-                  setIsCopied(true);
-                  setTimeout(() => setIsCopied(false), 2000);
-                }}
-                className="font-mono text-[10px] text-txt-muted hover:text-green-accent cursor-pointer bg-bg-primary px-2 py-0.5 rounded border border-border-soft"
-              >
-                {isCopied ? 'Copied' : 'Copy'}
-              </button>
-            </div>
-
-            {/* Editor Textarea */}
-            <div className="p-5 font-mono text-[11px] md:text-xs leading-relaxed text-txt-primary overflow-x-auto select-none bg-[#09090f]/80">
-              <pre className="whitespace-pre">
-                <div>
-                  <span className="text-purple-accent">public class</span> <span className="text-amber-accent">Developer</span> &#123;
-                </div>
-                <div>
-                  &nbsp;&nbsp;<span className="text-purple-accent">String</span> <span className="text-txt-primary">name</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= <span className="text-green-accent">"Murugan S"</span>;
-                </div>
-                <div>
-                  &nbsp;&nbsp;<span className="text-purple-accent">String</span> <span className="text-txt-primary">role</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= <span className="text-green-accent">"Full Stack Developer"</span>;
-                </div>
-                <div>
-                  &nbsp;&nbsp;<span className="text-purple-accent">String</span> <span className="text-txt-primary">location</span>&nbsp;&nbsp;&nbsp;= <span className="text-green-accent">"Tamil Nadu, India"</span>;
-                </div>
-                <div>
-                  &nbsp;&nbsp;<span className="text-purple-accent">boolean</span> <span className="text-txt-primary">available</span> = <span className="text-purple-accent">true</span>;
-                </div>
-                <br />
-                <div>
-                  &nbsp;&nbsp;<span className="text-purple-accent">String</span>[] <span className="text-txt-primary">stack</span> = &#123;
-                </div>
-                <div>
-                  &nbsp;&nbsp;&nbsp;&nbsp;<span className="text-green-accent">"Java"</span>, <span className="text-green-accent">"Spring Boot"</span>, <span className="text-green-accent">"React"</span>,
-                </div>
-                <div>
-                  &nbsp;&nbsp;&nbsp;&nbsp;<span className="text-green-accent">"TypeScript"</span>, <span className="text-green-accent">"PostgreSQL"</span>, <span className="text-green-accent">"Docker"</span>
-                </div>
-                <div>
-                  &nbsp;&nbsp;&#125;;
-                </div>
-                <br />
-                <div>
-                  &nbsp;&nbsp;<span className="text-purple-accent">String</span> <span className="text-green-accent">build</span>() &#123;
-                </div>
-                <div>
-                  &nbsp;&nbsp;&nbsp;&nbsp;<span className="text-purple-accent">return</span> <span className="text-green-accent">"Scalable. Clean. Impactful."</span>;
-                </div>
-                <div>
-                  &nbsp;&nbsp;&#125;
-                </div>
-                <br />
-                <div>
-                  &nbsp;&nbsp;<span className="text-purple-accent">String</span> <span className="text-green-accent">getStatus</span>() &#123;
-                </div>
-                <div>
-                  &nbsp;&nbsp;&nbsp;&nbsp;<span className="text-purple-accent">return</span> <span className="text-txt-primary">available</span>
-                </div>
-                <div>
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;? <span className="text-green-accent">"Open to opportunities 🟢"</span>
-                </div>
-                <div>
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <span className="text-green-accent">"Currently engaged"</span>;
-                </div>
-                <div>
-                  &nbsp;&nbsp;&#125;
-                </div>
-                <div>&#125;</div>
-              </pre>
-            </div>
-
-            {/* Footer / Status bar */}
-            <div className="bg-bg-primary/40 border-t border-border-soft px-4 py-2 flex items-center justify-between select-none">
-              <div className="font-mono text-[10px] text-txt-muted flex items-center space-x-2">
-                <span>🟢 java-17</span>
-                <span>|</span>
-                <span>0 errors</span>
-              </div>
-              <div className="font-mono text-[10px] text-txt-muted">
-                UTF-8
-              </div>
-            </div>
-          </div>
+          <a
+            href="/resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group px-7 py-3 bg-[#0a0a0c] border border-orange-500/35 rounded-full text-xs font-mono tracking-widest text-zinc-200 hover:text-white hover:border-orange-500/80 transition-all duration-300 flex items-center gap-2 hover:shadow-[0_0_25px_rgba(249,115,22,0.3)]"
+          >
+            <span>VIEW RESUME</span>
+            <ArrowRight size={13} className="transition-transform group-hover:translate-x-1 duration-200" />
+          </a>
         </motion.div>
 
       </div>
 
-      {/* Scroll indicator at bottom center */}
-      <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex flex-col items-center justify-center select-none z-10">
-        <button
-          onClick={handleScrollDown}
-          className="flex flex-col items-center justify-center cursor-pointer group hover:opacity-85 text-txt-muted transition-opacity duration-200"
-        >
-          <span className="font-mono text-[10px] uppercase tracking-[3px] text-txt-muted mb-2 group-hover:text-green-accent transition-colors">
-            Scroll
-          </span>
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ repeat: Infinity, duration: 1.5, ease: 'easeInOut' }}
+      {/* Right Edge: Available for Opportunity vertical tag */}
+      <div className="fixed right-6 top-1/2 transform -translate-y-1/2 z-40 hidden md:block">
+        <div className="flex flex-col items-center gap-4 bg-[#0a0a0c]/85 border border-white/5 backdrop-blur-md rounded-full px-3 py-6 shadow-xl select-none">
+          <span 
+            className="font-mono text-[8px] sm:text-[9px] tracking-[0.25em] text-zinc-400 font-semibold uppercase"
+            style={{ writingMode: 'vertical-rl' }}
           >
-            <ChevronDown size={16} className="text-green-accent" />
-          </motion.div>
+            AVAILABLE FOR OPPORTUNITY
+          </span>
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+          </span>
+        </div>
+      </div>
+
+      {/* Floating Action Buttons at Bottom Corners */}
+      <div className="absolute bottom-8 left-6 md:left-12 z-20">
+        <button
+          onClick={handleDisciplinesScroll}
+          className="w-11 h-11 rounded-full border border-white/5 hover:border-white/20 bg-[#0a0a0c]/80 backdrop-blur-md flex items-center justify-center text-zinc-400 hover:text-white transition-all duration-300 hover:shadow-lg cursor-pointer"
+          title="Explore Services"
+        >
+          <Terminal size={16} />
         </button>
       </div>
+
+      <div className="absolute bottom-8 right-6 md:right-12 z-20">
+        <button
+          onClick={handleContactScroll}
+          className="w-11 h-11 rounded-full border border-white/5 hover:border-white/20 bg-[#0a0a0c]/80 backdrop-blur-md flex items-center justify-center text-zinc-400 hover:text-white transition-all duration-300 hover:shadow-lg cursor-pointer"
+          title="Send a Message"
+        >
+          <MessageSquare size={16} />
+        </button>
+      </div>
+
+      {/* Bottom Red Planetary Horizon Glow Arc */}
+      <div 
+        className="absolute bottom-0 left-1/2 w-[160%] h-[120px] rounded-[100%] border-t border-red-500/25 pointer-events-none z-10"
+        style={{
+          background: 'radial-gradient(ellipse at 50% 100%, rgba(239, 68, 68, 0.28) 0%, rgba(249, 115, 22, 0.04) 55%, transparent 85%)',
+          transform: 'translate(-50%, 55px)',
+        }}
+      />
     </section>
   );
 }
