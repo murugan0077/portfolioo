@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Nunito", "Inter", ui-sans-serif, sans-serif;
+  --font-heading: "Nunito", sans-serif;
+  --font-mono: "Space Mono", monospace;
+
+  --color-bg-primary: #06060a;
+  --color-bg-card: #0e0e16;
+  --color-bg-hover: #13131f;
+  
+  --color-green-accent: #4ade80;
+  --color-green-dim: rgba(74, 222, 128, 0.12);
+  --color-purple-accent: #a78bfa;
+  --color-purple-dim: rgba(167, 139, 250, 0.12);
+  --color-amber-accent: #fbbf24;
+  --color-amber-dim: rgba(251, 191, 36, 0.12);
+  
+  --color-border-soft: rgba(255, 255, 255, 0.07);
+  --color-border-hi: rgba(255, 255, 255, 0.15);
+  
+  --color-txt-primary: #f1f5f9;
+  --color-txt-muted: #64748b;
+  --color-txt-dim: #334155;
+  
+  --shadow-glow-green: 0 0 30px rgba(74, 222, 128, 0.15);
+  --shadow-glow-purple: 0 0 30px rgba(167, 139, 250, 0.15);
+  --shadow-glow-amber: 0 0 30px rgba(251, 191, 36, 0.15);
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.4);
+}
+
+@utility text-outline {
+  -webkit-text-stroke: 1px rgba(241, 245, 249, 0.3);
+  color: transparent;
+}
+
+@utility text-outline-green {
+  -webkit-text-stroke: 1px rgba(74, 222, 128, 0.5);
+  color: transparent;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: #06060a;
+}
+::-webkit-scrollbar-thumb {
+  background: #4ade80;
+  border-radius: 2px;
+}
+
+/* Custom animations and scroll behaviors */
+html {
+  scroll-behavior: smooth;
+  background-color: #06060a;
+  color: #f1f5f9;
+  font-family: var(--font-sans);
+}
+
+/* Hide scrollbar during loading */
+body.loading {
+  overflow: hidden;
+}
+
+@keyframes marquee-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes marquee-right {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.animate-marquee-left {
+  display: flex;
+  width: max-content;
+  animation: marquee-left 30s linear infinite;
+}
+
+.animate-marquee-right {
+  display: flex;
+  width: max-content;
+  animation: marquee-right 25s linear infinite;
+}
+
+.marquee-container:hover .animate-marquee-left,
+.marquee-container:hover .animate-marquee-right {
+  animation-play-state: paused;
+}
+
