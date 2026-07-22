@@ -1,10 +1,5 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import { motion } from 'motion/react';
-import { Award, CheckCircle, ExternalLink } from 'lucide-react';
+import { Award, ExternalLink } from 'lucide-react';
 import { certifications } from '../data';
 
 export default function Certifications() {
@@ -12,145 +7,127 @@ export default function Certifications() {
     switch (accent) {
       case 'purple':
         return {
-          borderTop: 'border-t-2 border-purple-accent',
-          badgeBg: 'bg-purple-dim text-purple-accent border-purple-accent/20',
-          glowHover: 'hover:shadow-glow-purple hover:border-purple-accent/30',
           textColor: 'text-purple-accent',
+          gradientBg: 'from-purple-900/40 to-bg-card',
         };
       case 'amber':
         return {
-          borderTop: 'border-t-2 border-amber-accent',
-          badgeBg: 'bg-amber-dim text-amber-accent border-amber-accent/20',
-          glowHover: 'hover:shadow-glow-amber hover:border-amber-accent/30',
           textColor: 'text-amber-accent',
+          gradientBg: 'from-amber-900/40 to-bg-card',
         };
       case 'green':
       default:
         return {
-          borderTop: 'border-t-2 border-green-accent',
-          badgeBg: 'bg-green-dim text-green-accent border-green-accent/20',
-          glowHover: 'hover:shadow-glow-green hover:border-green-accent/30',
           textColor: 'text-green-accent',
+          gradientBg: 'from-green-900/40 to-bg-card',
         };
     }
   };
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.1 },
-    },
-  };
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { type: 'spring', stiffness: 100, damping: 15 },
-    },
-  };
+  const cardPositions = [
+    // Top Left
+    "lg:absolute lg:top-[5%] lg:left-[calc(50%-480px)] xl:left-[calc(50%-560px)] lg:-rotate-6",
+    // Top Right
+    "lg:absolute lg:top-[12%] lg:left-[calc(50%+220px)] xl:left-[calc(50%+240px)] lg:rotate-3",
+    // Bottom Left
+    "lg:absolute lg:top-[52%] lg:left-[calc(50%-460px)] xl:left-[calc(50%-530px)] lg:rotate-3",
+    // Bottom Right
+    "lg:absolute lg:top-[58%] lg:left-[calc(50%+200px)] xl:left-[calc(50%+220px)] lg:-rotate-2"
+  ];
 
   return (
-    <section id="certifications" className="py-24 bg-bg-primary relative border-t border-border-soft overflow-hidden">
+    <section id="certifications" className="py-24 lg:py-0 bg-bg-primary relative border-t border-border-soft overflow-hidden min-h-screen lg:min-h-[900px] flex items-center justify-center">
       {/* Background glow blob */}
-      <div className="absolute top-1/2 right-1/4 w-[350px] h-[350px] bg-purple-accent/3 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#ff5a36]/5 rounded-full blur-[120px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+      <div className="w-full max-w-7xl mx-auto px-6 relative z-10 flex flex-col lg:block lg:h-[850px]">
         
-        {/* Header Grid */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
-          <div className="flex flex-col space-y-3">
-            <span className="font-mono text-[11px] uppercase tracking-[3px] text-txt-muted">
-              CREDENTIALS
+        {/* Center Text Block (Standard flow on mobile, absolute center on lg) */}
+        <div className="flex flex-col items-center text-center max-w-sm xl:max-w-md mx-auto lg:absolute lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2 z-20 mb-20 lg:mb-0">
+          
+          {/* Pill */}
+          <div className="flex items-center space-x-2 px-3 py-1.5 border border-border-soft rounded-full mb-8 bg-bg-card/50 backdrop-blur-sm">
+            <Award size={12} className="text-[#ff5a36]" />
+            <span className="text-[10px] font-mono font-bold tracking-[2px] uppercase text-txt-muted">
+              Professional Milestones
             </span>
-            <h2 className="font-heading font-black text-4xl md:text-5xl text-txt-primary tracking-tight">
-              Certificates & Awards
-            </h2>
-            <p className="font-sans text-sm text-txt-muted max-w-xl">
-              A visual journey through verified industry credentials, academic achievements, and software engineering competitions.
-            </p>
           </div>
-
+          
+          {/* Heading */}
+          <h2 className="font-heading font-black text-5xl md:text-6xl tracking-tight mb-6 leading-[1.1]">
+            <span className="text-txt-primary">Certificates</span>
+            <br/>
+            <span className="text-[#ff5a36]">& Awards</span>
+          </h2>
+          
+          {/* Description */}
+          <p className="font-sans text-sm text-txt-muted leading-relaxed mb-6">
+            A visual journey through verified certifications, hackathons, and credentials.
+          </p>
+          
+          {/* Metrics */}
+          <div className="font-mono text-[10px] text-txt-dim tracking-[2px] uppercase mb-10">
+            04 certifications • 03 platforms • 2025-26
+          </div>
+          
+          {/* Action Button */}
           <a
             href="#contact"
-            className="font-mono text-xs font-bold text-green-accent hover:text-green-accent/80 transition-colors inline-flex items-center space-x-1 border-b border-green-accent pb-1 cursor-pointer self-start md:self-auto"
+            className="px-6 py-3 border border-[#ff5a36]/40 text-txt-primary rounded-full font-mono text-xs font-bold transition-all flex items-center space-x-2 group hover:bg-[#ff5a36]/10 hover:border-[#ff5a36]/80 bg-bg-card/30 backdrop-blur-sm"
           >
-            <span>Verify Credential Docs</span>
-            <span>→</span>
+            <span>VIEW CREDENTIALS</span>
+            <span className="text-[#ff5a36] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200">↗</span>
           </a>
         </div>
 
-        {/* Cards Grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-100px' }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-6"
-        >
-          {certifications.map((cert) => {
+        {/* Cards Wrapper */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 lg:block relative z-10 w-full h-full">
+          {certifications.map((cert, index) => {
             const styles = getAccentStyles(cert.accent);
+            const positionClass = cardPositions[index] || "lg:relative";
+            
             return (
               <motion.div
                 key={cert.id}
-                variants={cardVariants}
-                className={`bg-bg-card border border-border-soft ${styles.borderTop} rounded-xl p-8 backdrop-blur-card flex flex-col justify-between transition-all duration-300 ${styles.glowHover} hover:-translate-y-1`}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.15 }}
+                viewport={{ once: true }}
+                className={`bg-bg-card border border-border-soft rounded-[20px] p-2 flex flex-col group hover:z-30 hover:border-border-hi transition-all duration-300 hover:shadow-2xl hover:shadow-bg-primary/50 w-full lg:w-[260px] xl:w-[320px] ${positionClass}`}
               >
-                {/* Header line: Verified tag and certificate ID */}
-                <div className="flex items-center justify-between gap-4 mb-8 select-none">
-                  <div className={`flex items-center space-x-1.5 border text-[10px] font-mono font-bold tracking-wider uppercase px-2.5 py-1 rounded-full ${styles.badgeBg}`}>
-                    <CheckCircle size={10} />
-                    <span>VERIFIED</span>
-                  </div>
-                  <div className="font-mono text-[10px] text-txt-muted select-text">
-                    {cert.no}
+                {/* Image Placeholder */}
+                <div className={`relative w-full h-[160px] xl:h-[180px] rounded-[14px] bg-gradient-to-br ${styles.gradientBg} overflow-hidden border border-white/5 flex items-center justify-center`}>
+                  <div className="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay"></div>
+                  <Award size={48} className={`${styles.textColor} opacity-20`} />
+                  <div className="absolute bottom-2 right-2 bg-black/60 backdrop-blur-md px-2 py-1 rounded text-[10px] font-mono text-white/90 font-bold">
+                    {cert.year}
                   </div>
                 </div>
-
-                {/* Issuer, Year and Title */}
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between select-none">
-                    <span className="font-mono text-[11px] font-bold tracking-wider text-txt-muted uppercase flex items-center space-x-1.5">
-                      <Award size={13} className={styles.textColor} />
-                      <span>{cert.issuer}</span>
-                    </span>
-                    <span className="font-mono text-xs text-txt-dim font-bold">{cert.year}</span>
-                  </div>
-
-                  <h3 className="font-heading font-black text-lg md:text-xl text-txt-primary leading-snug">
-                    {cert.title}
-                  </h3>
-
-                  {cert.score && (
-                    <div className="pt-2">
-                      <span className="font-mono text-xs text-txt-muted">
-                        Evaluation Score: <strong className="text-green-accent font-semibold">{cert.score}</strong>
-                      </span>
+                
+                {/* Content */}
+                <div className="p-4 pt-5 flex-grow flex flex-col justify-between">
+                  <div>
+                    <div className={`font-mono text-[10px] font-bold tracking-wider uppercase mb-2 ${styles.textColor}`}>
+                      {cert.issuer}
                     </div>
-                  )}
-                </div>
-
-                {/* Action Link */}
-                <div className="border-t border-border-soft pt-6 mt-8 flex justify-between items-center select-none">
-                  <span className="font-mono text-[10px] text-txt-dim uppercase tracking-wider">
-                    SECURE_DOCS_HASH
-                  </span>
+                    <h3 className="font-heading font-bold text-base xl:text-lg text-txt-primary leading-snug mb-2">
+                      {cert.title}
+                    </h3>
+                  </div>
                   
                   <a
                     href={cert.link}
-                    onClick={(e) => e.preventDefault()} // Keep as interactive placeholder
-                    className="font-mono text-xs text-txt-muted hover:text-txt-primary transition-colors inline-flex items-center space-x-1 group"
+                    onClick={(e) => e.preventDefault()}
+                    className="mt-6 font-mono text-[10px] font-bold text-txt-muted uppercase tracking-widest flex items-center space-x-1 hover:text-txt-primary transition-colors group/link"
                   >
-                    <span>Inspect credential</span>
-                    <ExternalLink size={12} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />
+                    <span>EXPLORE CREDENTIALS</span>
+                    <span className="text-[#ff5a36] group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform duration-200">↗</span>
                   </a>
                 </div>
               </motion.div>
             );
           })}
-        </motion.div>
+        </div>
 
       </div>
     </section>
