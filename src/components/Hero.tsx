@@ -69,14 +69,14 @@ export default function Hero() {
       {/* Background Diagonal Shooting Star Lines */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
         {/* Top line */}
-        <div 
+        <div
           className="absolute top-[18%] left-[30%] w-[160px] h-[1px] rotate-[35deg]"
           style={{
             background: 'linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0) 100%)',
           }}
         />
         {/* Bottom line */}
-        <div 
+        <div
           className="absolute bottom-[28%] right-[22%] w-[220px] h-[1px] rotate-[35deg]"
           style={{
             background: 'linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0) 100%)',
@@ -86,13 +86,13 @@ export default function Hero() {
 
       {/* Core Typography Layout Container */}
       <div className="max-w-6xl w-full px-6 md:px-12 flex flex-col items-center justify-center relative z-10 text-center">
-        
+
         {/* Left Subtext (Desktop: Absolute on the left, Mobile: Centered at the top) */}
         <div className="lg:absolute lg:left-6 xl:left-12 lg:top-[12%] lg:text-left max-w-xs mb-8 lg:mb-0 select-none">
           <p className="font-mono text-[9px] sm:text-[10px] tracking-[0.2em] leading-relaxed text-zinc-500 font-semibold uppercase">
             MURUGAN S •
             <br />
-            ARCHITECTING MODERN,
+            DEVELOPING MODERN,
             <br />
             SCALABLE WEB PLATFORMS WITH
             <br />
@@ -102,7 +102,7 @@ export default function Hero() {
 
         {/* Massive Center Titles with Social Icons */}
         <div className="flex flex-col items-center justify-center gap-1 sm:gap-2 max-w-full">
-          
+
           {/* Row 1: AI & WEB + Github Icon */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -175,9 +175,9 @@ export default function Hero() {
             <br />
             APPLICATIONS
             <br />
-            POWERED BY SPRING BOOT &
+            POWERED BY REACT.JS
             <br />
-            TYPESCRIPT.
+            & TYPESCRIPT.
           </p>
         </div>
 
@@ -204,7 +204,7 @@ export default function Hero() {
       {/* Right Edge: Available for Opportunity vertical tag */}
       <div className="fixed right-6 top-1/2 transform -translate-y-1/2 z-40 hidden md:block">
         <div className="flex flex-col items-center gap-4 bg-[#0a0a0c]/85 border border-white/5 backdrop-blur-md rounded-full px-3 py-6 shadow-xl select-none">
-          <span 
+          <span
             className="font-mono text-[8px] sm:text-[9px] tracking-[0.25em] text-zinc-400 font-semibold uppercase"
             style={{ writingMode: 'vertical-rl' }}
           >
@@ -239,7 +239,7 @@ export default function Hero() {
       </div>
 
       {/* Bottom Red Planetary Horizon Glow Arc */}
-      <div 
+      <div
         className="absolute bottom-0 left-1/2 w-[160%] h-[120px] rounded-[100%] border-t border-red-500/25 pointer-events-none z-10"
         style={{
           background: 'radial-gradient(ellipse at 50% 100%, rgba(239, 68, 68, 0.28) 0%, rgba(249, 115, 22, 0.04) 55%, transparent 85%)',

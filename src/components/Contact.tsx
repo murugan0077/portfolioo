@@ -54,7 +54,7 @@ export default function Contact() {
 
   return (
     <section id="contact" className="py-8 bg-[#030303] relative overflow-hidden border-t border-zinc-900 flex flex-col items-center">
-      
+
       {/* "<- Back" Button in the Top Left */}
       {/* <button 
         onClick={handleBack}
@@ -75,13 +75,13 @@ export default function Contact() {
 
       {/* Content Layout Grid */}
       <div className="max-w-6xl w-full px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-16 items-center relative z-10 mt-20">
-        
+
         {/* LEFT COLUMN: Premium Lanyard ID Card Badge */}
         <div className="lg:col-span-5 flex flex-col items-center justify-center">
-          
+
           {/* Lanyard slot connection */}
           <div className="w-12 h-3.5 bg-zinc-900 border border-zinc-800 rounded-full mb-[-8px] z-20 shadow-inner" />
-          
+
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -106,10 +106,10 @@ export default function Contact() {
 
             {/* Profile Avatar Frame */}
             <div className="relative w-28 h-28 mx-auto mt-6 rounded-full border-2 border-emerald-500 p-1.5 shadow-md">
-              <img 
-                src="/developer_avatar.png" 
-                className="w-full h-full object-cover rounded-full" 
-                alt="Murugan S" 
+              <img
+                src="/developer_avatar.png"
+                className="w-full h-full object-cover rounded-full"
+                alt="Murugan S"
               />
             </div>
 
@@ -257,7 +257,7 @@ export default function Contact() {
 
             {/* Bottom Actions Row */}
             <div className="pt-6 flex flex-wrap items-center justify-between gap-6 border-t border-zinc-900 select-none">
-              
+
               {/* Ready to send / Submit trigger */}
               <div className="flex items-center gap-6">
                 <div className="flex flex-col">
@@ -316,7 +316,7 @@ export default function Contact() {
       {/* Footer Pill Container */}
       <div className="max-w-4xl w-full px-6 relative z-10 flex flex-col items-center">
         <div className="w-full bg-[#08080a]/90 border border-white/5 backdrop-blur-md rounded-[2rem] p-6 md:p-8 flex flex-col md:flex-row justify-between items-center gap-6 shadow-2xl relative select-none">
-          
+
           {/* Left info block */}
           <div className="flex flex-col items-center md:items-start text-center md:text-left gap-1">
             <div className="flex items-center gap-2">
@@ -374,7 +374,7 @@ export default function Contact() {
                 <Mail size={13} />
               </a>
             </div>
-            
+
             <button
               onClick={handleBack}
               className="text-[10px] font-mono tracking-widest text-zinc-500 hover:text-zinc-200 transition-colors uppercase cursor-pointer"
@@ -410,7 +410,7 @@ export default function Contact() {
           </motion.div>
         )}
       </AnimatePresence>
-      
+
     </section>
   );
 }
