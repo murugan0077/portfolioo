@@ -53,18 +53,18 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-28 bg-[#030303] relative overflow-hidden border-t border-zinc-900 flex flex-col items-center">
+    <section id="contact" className="py-8 bg-[#030303] relative overflow-hidden border-t border-zinc-900 flex flex-col items-center">
       
       {/* "<- Back" Button in the Top Left */}
-      <button 
+      {/* <button 
         onClick={handleBack}
         className="absolute top-10 left-6 md:left-12 flex items-center gap-2 px-4 py-2 border border-white/5 bg-[#0a0a0c]/85 hover:bg-zinc-900 rounded-full text-xs font-mono tracking-wider text-zinc-300 hover:text-white transition-all cursor-pointer z-30 shadow-md"
       >
         &larr; Back
-      </button>
+      </button> */}
 
       {/* Massive Scrolling Text Ticker in the Background */}
-      <div className="absolute top-[8%] left-0 w-full pointer-events-none z-0 opacity-15 overflow-hidden flex flex-col gap-4 select-none">
+      <div className=" top-[8%] left-0 w-full pointer-events-none z-0 opacity-95 overflow-hidden flex flex-col gap-4 select-none">
         <div className="animate-marquee-left flex whitespace-nowrap text-zinc-800 text-6xl md:text-8xl lg:text-9xl font-black uppercase tracking-tighter">
           <span>LET'S BUILD SOMETHING • AVAILABLE FOR OPPORTUNITY • LET'S BUILD SOMETHING • AVAILABLE FOR OPPORTUNITY •&nbsp;</span>
         </div>
@@ -96,7 +96,7 @@ export default function Contact() {
             {/* Card Header */}
             <div className="w-full flex justify-between items-center pb-4 border-b border-zinc-100">
               <span className="font-logo italic font-black text-sm tracking-tight text-zinc-800">
-                M. MURUGAN
+                MURUGAN S
               </span>
               <div className="flex items-center gap-1.5 bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded-full">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
