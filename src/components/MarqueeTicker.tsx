@@ -28,14 +28,14 @@ export default function MarqueeTicker() {
     'Open to Work',
     'Srivilliputtur',
     'Tamil Nadu, India',
-    '1.7+ Years Exp',
+    '2.3+ Years Exp',
     'AI Enthusiast',
     'Pranion Technology',
     'Problem Solver',
     'Open to Work',
     'Srivilliputtur',
     'Tamil Nadu, India',
-    '1.7+ Years Exp',
+    '2.3+ Years Exp',
   ];
 
   return (

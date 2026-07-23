@@ -15,7 +15,7 @@ export default function ExperienceEducation() {
       <div className="absolute bottom-1/4 right-10 w-[300px] h-[300px] bg-purple-accent/2 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-        
+
         {/* Section Header */}
         <div className="flex flex-col space-y-3 mb-16">
           <span className="font-mono text-[11px] uppercase tracking-[3px] text-txt-muted">
@@ -31,7 +31,7 @@ export default function ExperienceEducation() {
 
         {/* Side-by-Side Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-          
+
           {/* LEFT: WORK EXPERIENCE */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -52,7 +52,7 @@ export default function ExperienceEducation() {
                 </div>
               </div>
               <div className="font-mono text-[10px] text-green-accent bg-green-dim border border-green-accent/20 px-2.5 py-1 rounded-full uppercase tracking-wider select-none font-bold">
-                1.7+ Years
+                2.3+ Years
               </div>
             </div>
 
@@ -69,7 +69,7 @@ export default function ExperienceEducation() {
                     CURRENT
                   </span>
                 </div>
-                
+
                 <h4 className="font-heading font-black text-lg text-txt-primary">
                   {experience.title}
                 </h4>
@@ -156,7 +156,7 @@ export default function ExperienceEducation() {
                     {education.score}
                   </span>
                 </div>
-                
+
                 <h4 className="font-heading font-black text-lg text-txt-primary">
                   {education.title}
                 </h4>
