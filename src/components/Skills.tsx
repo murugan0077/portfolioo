@@ -32,7 +32,7 @@ const technologies = [
 ];
 
 export default function Skills() {
-  const words = ['deploy', 'engineer', 'scale', 'master'];
+  const words = ['deploy', 'scale', 'master'];
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
