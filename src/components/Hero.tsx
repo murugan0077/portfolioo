@@ -7,9 +7,11 @@ import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Github, Linkedin, Instagram, MessageSquare, Terminal, ArrowRight } from 'lucide-react';
 import { personalInfo } from '../data';
+import TerminalPopup from './TerminalPopup';
 
 export default function Hero() {
   const [dots, setDots] = useState<{ x: number; y: number; size: number; delay: number }[]>([]);
+  const [isTerminalOpen, setIsTerminalOpen] = useState(false);
 
   useEffect(() => {
     // Generate random background stars/dots once on mount to avoid hydration mismatch
@@ -220,7 +222,7 @@ export default function Hero() {
       {/* Floating Action Buttons at Bottom Corners */}
       <div className="absolute bottom-8 left-6 md:left-12 z-20">
         <button
-          onClick={handleDisciplinesScroll}
+          onClick={() => setIsTerminalOpen(true)}
           className="w-11 h-11 rounded-full border border-white/5 hover:border-white/20 bg-[#0a0a0c]/80 backdrop-blur-md flex items-center justify-center text-zinc-400 hover:text-white transition-all duration-300 hover:shadow-lg cursor-pointer"
           title="Explore Services"
         >
@@ -246,6 +248,9 @@ export default function Hero() {
           transform: 'translate(-50%, 55px)',
         }}
       />
+      
+      {/* Sandbox Terminal Popup */}
+      <TerminalPopup isOpen={isTerminalOpen} onClose={() => setIsTerminalOpen(false)} />
     </section>
   );
 }
