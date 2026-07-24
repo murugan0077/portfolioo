@@ -8,10 +8,12 @@ import { motion } from 'motion/react';
 import { Github, Linkedin, Instagram, MessageSquare, Terminal, ArrowRight } from 'lucide-react';
 import { personalInfo } from '../data';
 import TerminalPopup from './TerminalPopup';
+import AIBotPopup from './AIBotPopup';
 
 export default function Hero() {
   const [dots, setDots] = useState<{ x: number; y: number; size: number; delay: number }[]>([]);
   const [isTerminalOpen, setIsTerminalOpen] = useState(false);
+  const [isAIBotOpen, setIsAIBotOpen] = useState(false);
 
   useEffect(() => {
     // Generate random background stars/dots once on mount to avoid hydration mismatch
@@ -232,9 +234,9 @@ export default function Hero() {
 
       <div className="absolute bottom-8 right-6 md:right-12 z-20">
         <button
-          onClick={handleContactScroll}
+          onClick={() => setIsAIBotOpen(true)}
           className="w-11 h-11 rounded-full border border-white/5 hover:border-white/20 bg-[#0a0a0c]/80 backdrop-blur-md flex items-center justify-center text-zinc-400 hover:text-white transition-all duration-300 hover:shadow-lg cursor-pointer"
-          title="Send a Message"
+          title="Chat with AI Assistant"
         >
           <MessageSquare size={16} />
         </button>
@@ -251,6 +253,8 @@ export default function Hero() {
       
       {/* Sandbox Terminal Popup */}
       <TerminalPopup isOpen={isTerminalOpen} onClose={() => setIsTerminalOpen(false)} />
+      {/* AI Bot Popup */}
+      <AIBotPopup isOpen={isAIBotOpen} onClose={() => setIsAIBotOpen(false)} />
     </section>
   );
 }
