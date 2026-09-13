@@ -13,6 +13,44 @@ import {
   TimelineNode,
 } from './types';
 
+/**
+ * Professional Career Start Date
+ * Joined Pranion Technology: April 2024
+ */
+export const careerStartDate = new Date('2024-04-08');
+
+/**
+ * Automatically calculates professional experience dynamically from careerStartDate.
+ * Example: "2.4+ Years"
+ */
+export function calculateExperience(startDate: Date = careerStartDate): string {
+  const now = new Date();
+  let totalMonths = (now.getFullYear() - startDate.getFullYear()) * 12 + (now.getMonth() - startDate.getMonth());
+  if (now.getDate() < startDate.getDate()) {
+    totalMonths--;
+  }
+  totalMonths = Math.max(0, totalMonths);
+  const years = (totalMonths / 12).toFixed(1);
+  return `${years}+ Years`;
+}
+
+/**
+ * Returns a human-friendly detailed duration, e.g. "2 Yrs, 5 Mos"
+ */
+export function calculateDetailedExperience(startDate: Date = careerStartDate): string {
+  const now = new Date();
+  let totalMonths = (now.getFullYear() - startDate.getFullYear()) * 12 + (now.getMonth() - startDate.getMonth());
+  if (now.getDate() < startDate.getDate()) {
+    totalMonths--;
+  }
+  totalMonths = Math.max(0, totalMonths);
+  const years = Math.floor(totalMonths / 12);
+  const months = totalMonths % 12;
+  if (years === 0) return `${months} Month${months !== 1 ? 's' : ''}`;
+  if (months === 0) return `${years} Year${years !== 1 ? 's' : ''}`;
+  return `${years} Yr${years > 1 ? 's' : ''}, ${months} Mo${months > 1 ? 's' : ''}`;
+}
+
 export const personalInfo = {
   name: 'Murugan S',
   role: 'Full Stack Developer',
@@ -23,7 +61,9 @@ export const personalInfo = {
   github: 'https://github.com/murugan0077/',
   linkedin: 'https://www.linkedin.com/in/murugan-s-a0937636b/',
   status: 'Available for Work',
-  experience: '2.3+ Years',
+  get experience() {
+    return calculateExperience();
+  },
   projectsCount: '8+',
   techCount: '10+',
   tagline: 'Building great software, one line at a time.',

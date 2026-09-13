@@ -5,7 +5,7 @@
 
 import { motion } from 'motion/react';
 import { Briefcase, GraduationCap, Calendar, Check } from 'lucide-react';
-import { experience, education } from '../data';
+import { experience, education, calculateExperience, calculateDetailedExperience } from '../data';
 
 export default function ExperienceEducation() {
   return (
@@ -51,8 +51,11 @@ export default function ExperienceEducation() {
                   <h3 className="font-heading font-black text-xl text-txt-primary">Work Experience</h3>
                 </div>
               </div>
-              <div className="font-mono text-[10px] text-green-accent bg-green-dim border border-green-accent/20 px-2.5 py-1 rounded-full uppercase tracking-wider select-none font-bold">
-                2.3+ Years
+              <div 
+                title={calculateDetailedExperience()}
+                className="font-mono text-[10px] text-green-accent bg-green-dim border border-green-accent/20 px-2.5 py-1 rounded-full uppercase tracking-wider select-none font-bold cursor-default"
+              >
+                {calculateExperience()}
               </div>
             </div>
 

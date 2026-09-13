@@ -118,8 +118,8 @@ export default function Disciplines() {
 
             <div className="mt-8 pt-6 border-t border-border-soft flex flex-wrap items-center gap-3">
               <div className="flex items-center space-x-2 px-3 py-1.5 bg-green-dim border border-green-accent/20 rounded text-[10px] font-mono font-bold text-green-accent">
-                <span className="w-1.5 h-1.5 rounded-full bg-green-accent shadow-[0_0_8px_rgba(0,255,100,0.5)]"></span>
-                <span>{personalInfo.experience.split(' ')[0]} YEARS EXP</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-green-accent shadow-[0_0_8px_rgba(239,68,68,0.5)]"></span>
+                <span>{personalInfo.experience} EXP</span>
               </div>
               <div className="flex items-center space-x-2 px-3 py-1.5 bg-green-dim border border-green-accent/20 rounded text-[10px] font-mono font-bold text-green-accent">
                 <span className="w-1.5 h-1.5 rounded-full bg-green-accent shadow-[0_0_8px_rgba(0,255,100,0.5)]"></span>
@@ -162,7 +162,7 @@ export default function Disciplines() {
                       </div>
                       <div className="flex items-center space-x-2 px-3 py-1.5 bg-bg-primary border border-border-soft rounded text-[10px] font-mono font-medium text-txt-muted">
                         <span className="text-green-accent text-xs">★</span>
-                        <span>{personalInfo.experience.split(' ')[0]}+ YEARS</span>
+                        <span>{personalInfo.experience}</span>
                       </div>
                     </div>
                   </div>

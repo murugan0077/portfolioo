@@ -177,7 +177,7 @@ export default function Contact() {
             {/* Profile Avatar Frame */}
             <div className="relative w-28 h-28 mx-auto mt-6 rounded-full border-2 border-emerald-500 p-1.5 shadow-md">
               <img
-                src="/developer_avatar.png"
+                src="/public/profile_pic.jpeg"
                 className="w-full h-full object-cover rounded-full"
                 alt="Murugan S"
               />

@@ -64,10 +64,10 @@ export default function App() {
           {/* Core content sections */}
           <main>
             <Hero />
-            <Disciplines />
             <Certifications />
-            <Journey />
             <ExperienceEducation />
+            <Journey />
+            <Disciplines />
             <Skills />
             <MarqueeTicker />
             <Projects />
