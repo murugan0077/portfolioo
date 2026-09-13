@@ -193,7 +193,7 @@ export default function Hero() {
           className="mt-14"
         >
           <a
-            href="/resume.pdf"
+            href="/Resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="group px-7 py-3 bg-[#0a0a0c] border border-orange-500/35 rounded-full text-xs font-mono tracking-widest text-zinc-200 hover:text-white hover:border-orange-500/80 transition-all duration-300 flex items-center gap-2 hover:shadow-[0_0_25px_rgba(249,115,22,0.3)]"
