@@ -65,11 +65,11 @@ export default function AIBotPopup({ isOpen, onClose }: AIBotPopupProps) {
     // Simulate bot response
     setTimeout(() => {
       setIsTyping(false);
-      
+
       let botResponse: React.ReactNode = "I'm still learning about Murugan, but I can tell you he's an amazing developer! Try asking about his skills, projects, or how to contact him.";
-      
+
       const lowerText = text.toLowerCase();
-      
+
       if (lowerText.includes('skill') || lowerText.includes('frontend') || lowerText.includes('database')) {
         botResponse = (
           <div className="flex flex-col gap-2">
@@ -77,7 +77,7 @@ export default function AIBotPopup({ isOpen, onClose }: AIBotPopupProps) {
             <p>🎨 <strong>Frontend:</strong> React, Next.js, TypeScript, Tailwind CSS</p>
             <p>⚙️ <strong>Backend:</strong> Node.js, Python, Express</p>
             <p>🗄️ <strong>Database:</strong> PostgreSQL, MongoDB</p>
-            <button 
+            <button
               onClick={() => handleRedirect('skills')}
               className="mt-2 text-[11px] bg-green-500/10 border border-green-500/20 text-green-400 hover:bg-green-500/20 py-1.5 px-3 rounded-full self-start transition-colors"
             >
@@ -89,7 +89,7 @@ export default function AIBotPopup({ isOpen, onClose }: AIBotPopupProps) {
         botResponse = (
           <div className="flex flex-col gap-2">
             <p>Murugan has built several scalable web platforms with modern UI/UX principles, powered by React.js and TypeScript.</p>
-            <button 
+            <button
               onClick={() => handleRedirect('projects')}
               className="mt-2 text-[11px] bg-blue-500/10 border border-blue-500/20 text-blue-400 hover:bg-blue-500/20 py-1.5 px-3 rounded-full self-start transition-colors"
             >
@@ -111,7 +111,7 @@ export default function AIBotPopup({ isOpen, onClose }: AIBotPopupProps) {
                 <a href="tel:+918778987102" className="text-orange-400 hover:underline">+91 8778987102</a>
               </span>
             </div>
-            <button 
+            <button
               onClick={() => handleRedirect('contact')}
               className="mt-2 text-[11px] bg-orange-500/10 border border-orange-500/20 text-orange-400 hover:bg-orange-500/20 py-1.5 px-3 rounded-full self-start transition-colors"
             >
@@ -171,16 +171,15 @@ export default function AIBotPopup({ isOpen, onClose }: AIBotPopupProps) {
                   <div className={`w-8 h-8 rounded-full shrink-0 flex items-center justify-center ${msg.role === 'user' ? 'bg-blue-600' : 'bg-white/10'}`}>
                     {msg.role === 'user' ? <User size={14} className="text-white" /> : <Sparkles size={14} className="text-zinc-300" />}
                   </div>
-                  <div className={`p-3 rounded-2xl text-sm leading-relaxed ${
-                    msg.role === 'user' 
-                      ? 'bg-blue-600 text-white rounded-tr-sm' 
-                      : 'bg-white/5 text-zinc-200 border border-white/5 rounded-tl-sm'
-                  }`}>
+                  <div className={`p-3 rounded-2xl text-sm leading-relaxed ${msg.role === 'user'
+                    ? 'bg-blue-600 text-white rounded-tr-sm'
+                    : 'bg-white/5 text-zinc-200 border border-white/5 rounded-tl-sm'
+                    }`}>
                     {msg.text}
                   </div>
                 </motion.div>
               ))}
-              
+
               {isTyping && (
                 <div className="flex gap-3 max-w-[85%]">
                   <div className="w-8 h-8 rounded-full shrink-0 flex items-center justify-center bg-white/10">
@@ -213,7 +212,7 @@ export default function AIBotPopup({ isOpen, onClose }: AIBotPopupProps) {
 
             {/* Input */}
             <div className="p-4 pt-2 shrink-0">
-              <form 
+              <form
                 onSubmit={(e) => { e.preventDefault(); handleSend(inputValue); }}
                 className="relative flex items-center"
               >

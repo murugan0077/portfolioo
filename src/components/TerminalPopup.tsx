@@ -25,7 +25,7 @@ export default function TerminalPopup({ isOpen, onClose }: TerminalPopupProps) {
       setText2('');
       setShowJson(false);
       setShowPrompt(false);
-      
+
       let t1 = 0;
       const type1 = setInterval(() => {
         setText1(fullText1.slice(0, t1 + 1));
@@ -35,7 +35,7 @@ export default function TerminalPopup({ isOpen, onClose }: TerminalPopupProps) {
           setTimeout(() => setStep(1), 500);
         }
       }, 70); // typing speed
-      
+
       return () => clearInterval(type1);
     }
   }, [isOpen]);

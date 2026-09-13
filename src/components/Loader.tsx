@@ -4,7 +4,7 @@
  */
 
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, type Variants } from 'motion/react';
 
 interface LoaderProps {
   onComplete: () => void;
@@ -33,7 +33,7 @@ export default function Loader({ onComplete }: LoaderProps) {
 
   const name = "Murugan S";
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -44,7 +44,7 @@ export default function Loader({ onComplete }: LoaderProps) {
     },
   };
 
-  const letterVariants = {
+  const letterVariants: Variants = {
     hidden: { opacity: 0, filter: 'blur(10px)', y: 10 },
     visible: {
       opacity: 1,

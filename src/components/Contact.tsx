@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Mail, Phone, Github, Linkedin, Instagram, ArrowUpRight, ArrowUp, Loader2, CheckCircle2 } from 'lucide-react';
+import { Mail, Phone, Github, Linkedin, Instagram, ArrowUpRight, ArrowUp, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
 import { personalInfo } from '../data';
 
 export default function Contact() {
@@ -17,7 +17,17 @@ export default function Contact() {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showToast, setShowToast] = useState(false);
+  const [toast, setToast] = useState<{
+    show: boolean;
+    type: 'success' | 'error';
+    title: string;
+    message: string;
+  }>({
+    show: false,
+    type: 'success',
+    title: '',
+    message: '',
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -26,23 +36,83 @@ export default function Contact() {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) return;
 
+    const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
+
+    if (!accessKey || accessKey === 'YOUR_WEB3FORMS_ACCESS_KEY_HERE') {
+      setToast({
+        show: true,
+        type: 'error',
+        title: 'ACCESS KEY REQUIRED',
+        message: 'Please add your free Web3Forms Access Key to .env to receive messages directly to your email.',
+      });
+      setTimeout(() => {
+        setToast(prev => ({ ...prev, show: false }));
+      }, 6000);
+      return;
+    }
+
     setIsSubmitting(true);
 
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setShowToast(true);
-      setFormData({ name: '', email: '', subject: '', message: '' });
+    try {
+      const formElement = e.currentTarget;
+      const botcheck = (formElement.elements.namedItem('botcheck') as HTMLInputElement)?.checked;
+      if (botcheck) {
+        // Silently ignore bots
+        setIsSubmitting(false);
+        return;
+      }
 
-      // Dismiss toast in 4 seconds
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          access_key: accessKey,
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject ? `${formData.subject} - Portfolio Contact` : `New Message from ${formData.name} - Portfolio`,
+          message: formData.message,
+          from_name: formData.name,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.status === 200 && data.success) {
+        setToast({
+          show: true,
+          type: 'success',
+          title: 'MESSAGE SENT!',
+          message: "Thank you! Your message has been sent directly to Murugan's inbox.",
+        });
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        setToast({
+          show: true,
+          type: 'error',
+          title: 'SEND FAILED',
+          message: data.message || 'Could not deliver your message. Please try again or email directly.',
+        });
+      }
+    } catch {
+      setToast({
+        show: true,
+        type: 'error',
+        title: 'NETWORK ERROR',
+        message: 'Failed to send message. Please check your internet connection or email directly.',
+      });
+    } finally {
+      setIsSubmitting(false);
       setTimeout(() => {
-        setShowToast(false);
-      }, 4000);
-    }, 1200);
+        setToast(prev => ({ ...prev, show: false }));
+      }, 5000);
+    }
   };
 
   const handleBack = () => {
@@ -184,6 +254,16 @@ export default function Contact() {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-7">
+            {/* Bot Protection Honeypot */}
+            <input
+              type="checkbox"
+              name="botcheck"
+              className="hidden"
+              style={{ display: 'none' }}
+              tabIndex={-1}
+              autoComplete="off"
+            />
+
             {/* Name */}
             <div className="flex flex-col space-y-1.5">
               <label htmlFor="name" className="font-mono text-[9px] uppercase tracking-[0.25em] text-zinc-500 font-bold">
@@ -329,10 +409,10 @@ export default function Contact() {
               </div>
             </div>
             <p className="font-sans text-[10px] text-zinc-500 font-semibold mt-1">
-              © 2026 • HANDCRAFTED WITH 💜 IN INDIA
+              © 2026 • Made with ❤️ by Murugan S
             </p>
             <p className="font-mono text-[8px] text-zinc-600 tracking-wider uppercase">
-              Engineered for Performance & Scalability
+              I Love You 3000
             </p>
           </div>
 
@@ -391,21 +471,29 @@ export default function Contact() {
         </div>
       </div>
 
-      {/* SUCCESS TOAST NOTIFICATION */}
+      {/* TOAST NOTIFICATION */}
       <AnimatePresence>
-        {showToast && (
+        {toast.show && (
           <motion.div
             initial={{ opacity: 0, y: 50, x: 50 }}
             animate={{ opacity: 1, y: 0, x: 0 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="fixed bottom-6 right-6 z-50 max-w-sm bg-zinc-900 border border-emerald-500/20 rounded-xl p-4 shadow-2xl backdrop-blur-md flex items-center space-x-3 select-none"
+            className={`fixed bottom-6 right-6 z-50 max-w-sm bg-zinc-900 border rounded-xl p-4 shadow-2xl backdrop-blur-md flex items-center space-x-3 select-none ${
+              toast.type === 'success' ? 'border-emerald-500/30' : 'border-rose-500/30'
+            }`}
           >
-            <div className="p-2 bg-emerald-500/10 rounded-lg text-emerald-400">
-              <CheckCircle2 size={18} />
+            <div
+              className={`p-2 rounded-lg ${
+                toast.type === 'success'
+                  ? 'bg-emerald-500/10 text-emerald-400'
+                  : 'bg-rose-500/10 text-rose-400'
+              }`}
+            >
+              {toast.type === 'success' ? <CheckCircle2 size={18} /> : <AlertCircle size={18} />}
             </div>
             <div className="flex-1 text-xs">
-              <p className="font-mono font-bold text-white uppercase tracking-wider">MESSAGE SENT!</p>
-              <p className="font-sans text-zinc-400 mt-0.5">Thank you. Your inquiry has been transmitted successfully.</p>
+              <p className="font-mono font-bold text-white uppercase tracking-wider">{toast.title}</p>
+              <p className="font-sans text-zinc-400 mt-0.5">{toast.message}</p>
             </div>
           </motion.div>
         )}
